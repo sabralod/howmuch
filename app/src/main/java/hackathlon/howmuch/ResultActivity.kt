@@ -87,10 +87,7 @@ class ResultActivity : Activity() {
             Log.d("ResultActivity", item.toString())
         }
 
-        textView.setText("There are roughly " + objects.length() + " people in this picture.")
-
-
-        textView.setText("People found: " + objects.length())
+        textView.setText("There are roughly " + count + " people in this picture.")
 
     }
 }
