@@ -9,6 +9,7 @@ import android.widget.Toast
 import android.provider.MediaStore
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Environment
@@ -98,6 +99,7 @@ class MainActivity : AppCompatActivity() {
                         "hackathlon.howmuch",
                         photoFile)
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                //takePictureIntent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, "72000")
                 Log.d("Info: ", "Picture saved")
                 tempFile = photoFile
 
@@ -111,6 +113,7 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == MEDIA_TYPE_IMAGE && resultCode == Activity.RESULT_OK && data != null && data.data!=null){
+
             uri = data.data
             try {
                 Log.d("Info: ", "Im Try Block")
@@ -180,6 +183,12 @@ class MainActivity : AppCompatActivity() {
     override fun onRestart() {
         super.onRestart()
         imageView.setImageBitmap(null)
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        Log.d("Config", newConfig.toString())
+        setRequestedOrientation(newConfig?.orientation as Int)
     }
 
 }
