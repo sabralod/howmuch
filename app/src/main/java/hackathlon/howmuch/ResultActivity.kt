@@ -37,14 +37,8 @@ class ResultActivity : Activity() {
 
         val content = getIntent().extras.get("content") as String
 
-        var json = JSONObject(content)
-
-        textView.setText(json.getJSONArray("objects").toString())
-
-
-        Log.d("ResultActivity", json.getJSONArray("objects").toString())
-
-
+        var objects = JSONObject(content).getJSONArray("objects")
+        textView.setText("People found: " + objects.length())
 
     }
 }
