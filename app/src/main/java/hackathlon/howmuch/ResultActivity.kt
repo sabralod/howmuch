@@ -8,6 +8,7 @@ import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.BlurTransformation
 import java.io.File
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
+import org.json.JSONObject
 
 
 
@@ -31,7 +32,13 @@ class ResultActivity : Activity() {
         Picasso.with(this).load(pictureFile).transform(BlurTransformation(this, 24)).into(imageView)
 
         val content = getIntent().extras.get("content") as String
-        Log.d("ResultActivity", content)
+
+        var json = JSONObject(content)
+
+
+        Log.d("ResultActivity", json.getJSONArray("objects").toString())
+
+
 
     }
 }

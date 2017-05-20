@@ -7,8 +7,6 @@ import android.widget.Toast
 import android.provider.MediaStore
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Environment
 import java.io.File
@@ -19,9 +17,9 @@ import android.support.v4.content.FileProvider
 import android.util.Log
 import android.widget.ImageView
 import com.github.kittinunf.fuel.android.extension.responseJson
-import com.github.kittinunf.fuel.core.Request
 import com.squareup.picasso.Picasso
 import hackathlon.howmuch.data.DataLayer
+import org.json.JSONObject
 
 
 class MainActivity : AppCompatActivity() {
@@ -104,6 +102,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun responseHandler(content: String) {
+
         val intent = Intent(this, ResultActivity::class.java)
         intent.putExtra("image", tempFile)
         intent.putExtra("content", content)
