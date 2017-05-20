@@ -1,6 +1,7 @@
 package hackathlon.howmuch
 
 import android.app.Activity
+import android.app.PendingIntent.getActivity
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -25,7 +26,8 @@ import com.squareup.picasso.Picasso
 import hackathlon.howmuch.data.DataLayer
 import org.json.JSONObject
 import jp.wasabeef.picasso.transformations.BlurTransformation
-
+import java.io.BufferedOutputStream
+import java.io.FileOutputStream
 
 
 class MainActivity : AppCompatActivity() {
@@ -58,7 +60,6 @@ class MainActivity : AppCompatActivity() {
 
 
         button1.setOnClickListener {
-            Toast.makeText(this, "button works.", Toast.LENGTH_SHORT).show()
             dispatchTakePictureIntent()
         }
 
@@ -115,29 +116,32 @@ class MainActivity : AppCompatActivity() {
                 Log.d("Info: ", "Im Try Block")
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri)
                 Log.d("Info: ", uri.toString())
-                
+
                 Picasso.with(this).load(uri).into(imageView)
+                tempFile = createImageFile()
+                var os = BufferedOutputStream(FileOutputStream(tempFile))
+                (bitmap as Bitmap?)!!.compress(Bitmap.CompressFormat.JPEG, 100, os)
+                os.close()
+
+
             } catch (ignored: IOException) {
 
             }
+        } else {
+            Picasso.with(this).load(tempFile).transform(BlurTransformation(this, 25)).into(imageView)
+
         }
 
-        Picasso.with(this).load(tempFile).transform(BlurTransformation(this, 25)).into(imageView)
         progressBar.visibility = View.VISIBLE
-        //dataLayer.analyzePic(tempFile as File)
 
 
-//        val intent = Intent(this, ResultActivity::class.java)
-//        intent.putExtra("image", tempFile)
-//        startActivity(intent)
-
-      /*  dataLayer.analyzePic(tempFile as File).responseJson{ request, response, result ->
+        dataLayer.analyzePic(tempFile as File).responseJson{ request, response, result ->
             result.fold(
                     { d -> responseHandler(d.content)
                     },
                     { err -> Log.e("Log", err.message)}
             )
-        }*/
+        }
 
     }
 
@@ -172,5 +176,10 @@ class MainActivity : AppCompatActivity() {
         return image
     }
 
+
+    override fun onRestart() {
+        super.onRestart()
+        imageView.setImageBitmap(null)
+    }
 
 }
