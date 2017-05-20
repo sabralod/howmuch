@@ -28,6 +28,8 @@ import com.squareup.picasso.Picasso
 import hackathlon.howmuch.data.DataLayer
 import org.json.JSONObject
 import jp.wasabeef.picasso.transformations.BlurTransformation
+import jp.wasabeef.picasso.transformations.gpu.KuwaharaFilterTransformation
+import jp.wasabeef.picasso.transformations.gpu.PixelationFilterTransformation
 import java.io.BufferedOutputStream
 import java.io.FileOutputStream
 
@@ -136,7 +138,7 @@ class MainActivity : AppCompatActivity() {
             }
         } else {
             imageView.visibility = View.VISIBLE
-            Picasso.with(this).load(tempFile).transform(BlurTransformation(this, 25)).into(imageView)
+            Picasso.with(this).load(tempFile).transform(BlurTransformation(this, 25)).transform(KuwaharaFilterTransformation(this, 3)).into(imageView)
 
         }
 
