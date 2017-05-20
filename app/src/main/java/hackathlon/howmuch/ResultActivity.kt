@@ -7,7 +7,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 import hackathlon.howmuch.R.id.textView
-import jp.wasabeef.picasso.transformations.BlurTransformation
 import java.io.File
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import org.json.JSONObject
