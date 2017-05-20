@@ -15,7 +15,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 import android.support.v4.content.FileProvider
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.squareup.picasso.Picasso
 import hackathlon.howmuch.data.DataLayer
@@ -26,6 +28,7 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var button1: Button
     lateinit var imageView: ImageView
+    lateinit var progressBar: ProgressBar
     val CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100
     val MEDIA_TYPE_IMAGE = 1
     lateinit var fileUri: Uri
@@ -43,6 +46,8 @@ class MainActivity : AppCompatActivity() {
         dataLayer.init()
         button1 = findViewById(R.id.button_1) as Button
         imageView = findViewById(R.id.imageView_1) as ImageView
+        progressBar = findViewById(R.id.progressBar) as ProgressBar
+        progressBar.visibility = View.INVISIBLE
 
         button1.setOnClickListener {
             Toast.makeText(this, "button works.", Toast.LENGTH_SHORT).show()
@@ -85,8 +90,9 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         Picasso.with(this).load(tempFile).into(imageView)
-
+        progressBar.visibility = View.VISIBLE
         dataLayer.analyzePic(tempFile as File)
+
 
 //        val intent = Intent(this, ResultActivity::class.java)
 //        intent.putExtra("image", tempFile)
@@ -102,6 +108,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun responseHandler(content: String) {
+        findViewById(R.id.progressBar).visibility = View.GONE
 
         val intent = Intent(this, ResultActivity::class.java)
         intent.putExtra("image", tempFile)
