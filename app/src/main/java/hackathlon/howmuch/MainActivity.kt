@@ -120,7 +120,7 @@ class MainActivity : AppCompatActivity() {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri)
                 Log.d("Info: ", uri.toString())
 
-                Picasso.with(this).load(uri).into(imageView)
+                Picasso.with(this).load(uri).transform(BlurTransformation(this, 25)).into(imageView)
                 tempFile = createImageFile()
                 var os = BufferedOutputStream(FileOutputStream(tempFile))
                 (bitmap as Bitmap?)!!.compress(Bitmap.CompressFormat.JPEG, 100, os)
@@ -189,6 +189,11 @@ class MainActivity : AppCompatActivity() {
         super.onConfigurationChanged(newConfig)
         Log.d("Config", newConfig.toString())
         setRequestedOrientation(newConfig?.orientation as Int)
+    }
+
+    override fun onBackPressed() {
+        finish()
+        super.onBackPressed()
     }
 
 }
