@@ -73,6 +73,12 @@ class ResultActivity : Activity() {
             }
         }
 
+        var count = objects.length()
+
+        if (count > 1 && count < 4) {
+            count--
+        }
+
         for (item in persons) {
             Log.d("ResultActivity", item.toString())
         }
@@ -82,6 +88,9 @@ class ResultActivity : Activity() {
         }
 
         textView.setText("There are roughly " + objects.length() + " people in this picture.")
+
+
+        textView.setText("People found: " + objects.length())
 
     }
 }
