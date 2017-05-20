@@ -18,6 +18,8 @@ import java.util.*
 import android.support.v4.content.FileProvider
 import android.util.Log
 import android.widget.ImageView
+import com.github.kittinunf.fuel.android.extension.responseJson
+import com.github.kittinunf.fuel.core.Request
 import com.squareup.picasso.Picasso
 import hackathlon.howmuch.data.DataLayer
 
@@ -93,6 +95,14 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, ResultActivity::class.java)
         intent.putExtra("image", tempFile)
         startActivity(intent)
+
+        dataLayer.analyzePic(tempFile as File).responseJson{ request, response, result ->
+            result.fold(
+                    { d -> Log.d("Blub", d.content)},
+                    { err -> Log.e("Log", err.message)}
+            )
+        }
+
     }
 
     private fun isDeviceSupportCamera(): Boolean {

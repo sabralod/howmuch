@@ -4,9 +4,13 @@ import android.content.Context
 import android.media.Image
 import android.util.Log
 import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.android.core.Json
+import com.github.kittinunf.fuel.android.extension.responseJson
+import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.FuelManager
 import com.github.kittinunf.result.Result
-import com.github.kittinunf.result.getAs
+import com.github.kittinunf.fuel.core.Request
+import com.github.kittinunf.fuel.core.Response
 import java.io.File
 
 /**
@@ -27,13 +31,7 @@ class DataLayer {
         FuelManager.instance.baseHeaders = mapOf("content-type" to "application/octet-stream", "x-access-token" to APP_TOKEN)
     }
 
-    fun analyzePic(file: File) {
-
-        Fuel.post("detections?type=person").body(file.readBytes()).response { request, response, result ->
-            Log.d("Post", request.toString())
-            Log.d("Response", response.toString())
-            Log.d("Result", result.toString())
-        }
-
+    fun analyzePic(file: File) : Request {
+        return Fuel.post("detections?type=person").body(file.readBytes())
     }
 }
