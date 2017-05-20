@@ -2,6 +2,7 @@ package hackathlon.howmuch
 
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.BlurTransformation
@@ -28,6 +29,9 @@ class ResultActivity : Activity() {
 
         val pictureFile = getIntent().extras.get("image") as File
         Picasso.with(this).load(pictureFile).transform(BlurTransformation(this, 24)).into(imageView)
+
+        val content = getIntent().extras.get("content") as String
+        Log.d("ResultActivity", content)
 
     }
 }

@@ -87,22 +87,27 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         Picasso.with(this).load(tempFile).into(imageView)
-        //fileString = tempFile?.path
-        //var bitmap: Bitmap = BitmapFactory.decodeFile(fileString)
-        //imageView.setImageBitmap(bitmagi p)
 
         dataLayer.analyzePic(tempFile as File)
-        val intent = Intent(this, ResultActivity::class.java)
-        intent.putExtra("image", tempFile)
-        startActivity(intent)
+
+//        val intent = Intent(this, ResultActivity::class.java)
+//        intent.putExtra("image", tempFile)
+//        startActivity(intent)
 
         dataLayer.analyzePic(tempFile as File).responseJson{ request, response, result ->
             result.fold(
-                    { d -> Log.d("Blub", d.content)},
+                    { d -> responseHandler(d.content)},
                     { err -> Log.e("Log", err.message)}
             )
         }
 
+    }
+
+    fun responseHandler(content: String) {
+        val intent = Intent(this, ResultActivity::class.java)
+        intent.putExtra("image", tempFile)
+        intent.putExtra("content", content)
+        startActivity(intent)
     }
 
     private fun isDeviceSupportCamera(): Boolean {
