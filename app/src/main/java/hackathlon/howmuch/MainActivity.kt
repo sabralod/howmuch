@@ -13,6 +13,7 @@ import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Environment
+import android.support.design.widget.FloatingActionButton
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -33,7 +34,7 @@ import java.io.FileOutputStream
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var button1: Button
+    lateinit var fab1 : FloatingActionButton
     lateinit var button2: Button
     lateinit var imageView: ImageView
     lateinit var progressBar: ProgressBar
@@ -53,14 +54,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         dataLayer.init()
-        button1 = findViewById(R.id.button_1) as Button
+        fab1 = findViewById(R.id.myFAB) as FloatingActionButton
         button2 = findViewById(R.id.button_choose) as Button
         imageView = findViewById(R.id.imageView_1) as ImageView
+        imageView.visibility = View.INVISIBLE
         progressBar = findViewById(R.id.progressBar) as ProgressBar
         progressBar.visibility = View.INVISIBLE
 
 
-        button1.setOnClickListener {
+        fab1.setOnClickListener {
             dispatchTakePictureIntent()
         }
 
@@ -121,6 +123,7 @@ class MainActivity : AppCompatActivity() {
                 Log.d("Info: ", uri.toString())
 
                 Picasso.with(this).load(uri).into(imageView)
+                imageView.visibility = View.VISIBLE
                 tempFile = createImageFile()
                 var os = BufferedOutputStream(FileOutputStream(tempFile))
                 (bitmap as Bitmap?)!!.compress(Bitmap.CompressFormat.JPEG, 100, os)
@@ -131,6 +134,7 @@ class MainActivity : AppCompatActivity() {
 
             }
         } else {
+            imageView.visibility = View.VISIBLE
             Picasso.with(this).load(tempFile).transform(BlurTransformation(this, 25)).into(imageView)
 
         }
