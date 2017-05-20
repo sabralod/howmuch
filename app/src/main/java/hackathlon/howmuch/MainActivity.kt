@@ -7,10 +7,11 @@ import android.widget.Toast
 import android.provider.MediaStore
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Environment
 import java.io.File
-import android.os.Environment.DIRECTORY_PICTURES
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -18,6 +19,7 @@ import android.support.v4.content.FileProvider
 import android.util.Log
 import android.widget.ImageView
 import com.squareup.picasso.Picasso
+import hackathlon.howmuch.data.DataLayer
 
 
 class MainActivity : AppCompatActivity() {
@@ -27,14 +29,18 @@ class MainActivity : AppCompatActivity() {
     val CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100
     val MEDIA_TYPE_IMAGE = 1
     lateinit var fileUri: Uri
-    lateinit var fileString: String
+    var fileString: String? = null
     var mCurrentPhotoPath: String? = null
     var tempFile: File? = null
+    var dataLayer = DataLayer()
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        dataLayer.init()
         button1 = findViewById(R.id.button_1) as Button
         imageView = findViewById(R.id.imageView_1) as ImageView
 
@@ -75,10 +81,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    //startactivityforresult doesnt save the image, so we use a class variable to temporarily store it
+    //startActivityForResult doesn't save the image, so we use a class variable to temporarily store it
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Picasso.with(this).load(tempFile).into(imageView)
+        //Picasso.with(this).load(tempFile).into(imageView)
+        fileString = tempFile?.path
+        var bitmap: Bitmap = BitmapFactory.decodeFile(fileString)
+        imageView.setImageBitmap(bitmap)
+
+        dataLayer.analyzePic(tempFile as File)
 
     }
 
