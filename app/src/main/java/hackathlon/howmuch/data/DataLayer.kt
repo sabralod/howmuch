@@ -32,6 +32,6 @@ class DataLayer {
     }
 
     fun analyzePic(file: File) : Request {
-        return Fuel.post("detections?type=person").body(file.readBytes())
+        return Fuel.post("detections?type=all").body(file.readBytes())
     }
 }
