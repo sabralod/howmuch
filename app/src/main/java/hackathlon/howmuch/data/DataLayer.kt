@@ -5,6 +5,8 @@ import android.media.Image
 import android.util.Log
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.FuelManager
+import com.github.kittinunf.result.Result
+import com.github.kittinunf.result.getAs
 import java.io.File
 
 /**

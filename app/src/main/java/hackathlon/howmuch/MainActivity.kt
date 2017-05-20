@@ -84,13 +84,15 @@ class MainActivity : AppCompatActivity() {
     //startActivityForResult doesn't save the image, so we use a class variable to temporarily store it
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        //Picasso.with(this).load(tempFile).into(imageView)
-        fileString = tempFile?.path
-        var bitmap: Bitmap = BitmapFactory.decodeFile(fileString)
-        imageView.setImageBitmap(bitmap)
+        Picasso.with(this).load(tempFile).into(imageView)
+        //fileString = tempFile?.path
+        //var bitmap: Bitmap = BitmapFactory.decodeFile(fileString)
+        //imageView.setImageBitmap(bitmagi p)
 
         dataLayer.analyzePic(tempFile as File)
-
+        val intent = Intent(this, ResultActivity::class.java)
+        intent.putExtra("image", tempFile)
+        startActivity(intent)
     }
 
     private fun isDeviceSupportCamera(): Boolean {
